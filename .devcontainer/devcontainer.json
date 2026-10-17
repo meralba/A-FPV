@@ -1,0 +1,27 @@
+{
+  "name": "ROS 2 Jazzy Development Environment",
+  "build": {
+    "dockerfile": "../docker/ros2/Dockerfile",
+    "args": {
+      "USERNAME": "ros",
+      "USER_UID": "1000",
+      "USER_GID": "1000"
+    }
+  },
+  "remoteUser": "ros",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-iot.vscode-ros",
+        "ms-python.python",
+        "ms-cpptools.cpptools-extension-pack",
+        "twxs.cmake",
+        "cheshirekow.cmake-format"
+      ]
+    }
+  },
+  "containerEnv": {
+    "RMW_IMPLEMENTATION": "rmw_fastrtps_cpp"
+  },
+  "postCreateCommand": "rosdep update"
+}
