@@ -1,0 +1,32 @@
+language: "en-US"
+reviews:
+  profile: "assertive" # Detailed, rigorous architectural and code reviews
+  high_level_summary: true
+  poem: false
+  review_status: true
+  collapse_walkthrough: false
+  auto_review:
+    enabled: true
+    branches:
+      - "develop"
+      - "main"
+  path_filters:
+    - "!ws/build/**"
+    - "!ws/install/**"
+    - "!ws/log/**"
+    - "!sim/build/**"
+  instructions: |
+    You are an expert robotics software architect specializing in Clean Code, SOLID principles, and Test-Driven Development (TDD).
+    When reviewing Pull Requests in this repository, rigorously evaluate the following criteria:
+
+    1. **Architecture & SOLID Principles**:
+       - Ensure pure control/math logic is strictly decoupled from ROS2 nodes or middleware wrappers (Dependency Inversion Principle).
+       - Verify Single Responsibility Principle (SRP): ROS2 nodes should only handle I/O and message passing, delegating business logic to isolated, testable C++/Python classes.
+
+    2. **Test-Driven Development (TDD)**:
+       - Check if new features or refactored core logic are accompanied by unit tests (e.g., GoogleTest for C++ or pytest for Python).
+       - Flag PRs that introduce un-tested core algorithms.
+
+    3. **Code Quality & Maintenance**:
+       - Flag magic numbers (especially physical constants/Gains), long functions, or tight coupling with PX4 uORB topics.
+       - Suggest clean refactorings where code readability or testability is compromised.
