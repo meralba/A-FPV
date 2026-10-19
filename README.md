@@ -1,10 +1,10 @@
 # Autonomous FPV Racing Drone
 
-An open-source project aimed at building an autonomous FPV racing drone following agile/Kanban methodologies, clean code principles, SOLID, and TDD, leveraging ROS2, PX4 Autopilot, and high-fidelity simulation.
+An open-source project aimed at building an autonomous FPV racing drone following agile/Kanban methodologies, clean code principles, SOLID, and TDD, leveraging ROS2, PX4 Autopilot (v1.17.0), and high-fidelity simulation.
 
 ## Project Structure (Monorepo)
 The repository is structured following a clean monorepo approach to maintain separation of concerns while enabling fast iterative development:
-* `docker/`: Dockerfiles and configuration scripts for reproducible environments (ROS2 Humble, etc.).
+* `docker/`: Dockerfiles and configuration scripts for reproducible environments (ROS2 Jazzy, etc.).
 * `sim/`: Simulation worlds, models, and launch files for Gazebo and PX4-SITL.
 * `ws/`: ROS2 Workspace containing the source code (`ws/src/`) for packages, control logic, and perception nodes, prioritizing decoupled core logic for TDD.
 
