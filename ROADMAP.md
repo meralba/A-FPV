@@ -12,10 +12,10 @@ To develop an autonomous control system for an FPV racing drone capable of navig
 
 ## Stage 1: Simulation Environment Setup (Status: In Progress ⏳)
 - [x] **Task 1.1:** Structure initial Monorepo (`ws/src/`, `docker/`, `sim/`)[cite: 1].
-- [ ] **Task 1.2:** Create base Dockerfile for ROS2 Humble with development tools.
-- [ ] **Task 1.3:** Configure simulated autopilot (PX4 Autopilot SITL) connected to Gazebo.
-- [ ] **Task 1.4:** Integrate containers for unified execution.
-- [ ] **Task 1.5:** Verify basic teleoperation and ROS2 topic communication.
+- [x] **Task 1.2:** Create base Dockerfile for ROS2 Jazzy with development tools.
+- [ ] **Task 1.3:** Configure containerized PX4 Autopilot (v1.17.0) SITL and Gazebo via Docker Compose.
+- [ ] **Task 1.4:** Integrate Micro-XRCE-DDS agent for communication bridge.
+- [ ] **Task 1.5:** Verify basic teleoperation and ROS 2 topic communication.
 
 ## Stage 2: Iterative Feature Development (Status: Pending 🛑)
 - [ ] **Iteration 2.1:** Basic waypoint-guided autonomous flight via ROS2 (applying TDD to core navigation logic).
