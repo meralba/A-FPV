@@ -1,0 +1,31 @@
+services:
+  px4_sitl:
+    build:
+      context: ./px4
+      dockerfile: Dockerfile
+    container_name: px4_simulation
+    environment:
+      - ROS_DOMAIN_ID=0
+      - DISPLAY=${DISPLAY}
+      - PX4_SIM_MODEL=gz_x500
+    volumes:
+      - ../sim:/home/px4/sim
+      - /tmp/.X11-unix:/tmp/.X11-unix:ro
+    network_mode: "host"
+    ipc: "host"
+    devices:
+      - /dev/dri:/dev/dri
+    tty: true
+    stdin_open: true
+
+  ros2_dev:
+    build:
+      context: ./ros2
+      dockerfile: Dockerfile
+    container_name: ros2_development_environment
+    volumes:
+      - ../ws:/home/ros/ws
+    network_mode: "host"
+    ipc: "host"
+    stdin_open: true
+    tty: true

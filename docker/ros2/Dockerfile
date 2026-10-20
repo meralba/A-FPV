@@ -1,5 +1,9 @@
 FROM osrf/ros:jazzy-desktop-full
 
+ARG USERNAME=ros
+ARG USER_UID=1000
+ARG USER_GID=$USER_UID
+
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     cmake \
@@ -16,10 +20,6 @@ RUN if [ ! -f /etc/ros/rosdep/sources.list.d/20-default.list ]; then \
     fi
 
 ENV RMW_IMPLEMENTATION=rmw_fastrtps_cpp
-
-ARG USERNAME=ros
-ARG USER_UID=1000
-ARG USER_GID=$USER_UID
 
 RUN if getent group $USER_GID > /dev/null 2>&1; then \
         GROUP_NAME=$(getent group $USER_GID | cut -d: -f1); \
@@ -42,6 +42,13 @@ RUN if getent group $USER_GID > /dev/null 2>&1; then \
     chmod 0440 /etc/sudoers.d/$USERNAME
 
 USER $USERNAME
-WORKDIR /home/$USERNAME/ws
+WORKDIR /home/$USERNAME
+
+RUN mkdir -p thirdparties_ws/src && \
+    cd thirdparties_ws/src && \
+    git clone -b v2.4.3 https://github.com/eProsima/Micro-XRCE-DDS-Agent.git && \
+    cd .. && \
+    /bin/bash -c "source /opt/ros/jazzy/setup.bash && colcon build"
 
 CMD ["bash"]
+
