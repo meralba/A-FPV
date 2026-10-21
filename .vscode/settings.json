@@ -1,0 +1,9 @@
+{
+    "editor.formatOnSave": false,
+    "files.insertFinalNewline": true,
+    "files.trimTrailingWhitespace": true,
+    "C_Cpp.clang_format_style": "file",
+    "editor.codeActionsOnSave": {
+        "source.fixAll": "always"
+    }
+}

@@ -1,38 +1,77 @@
-name: ROS 2 CI Pipeline
+name: ROS 2 Jazzy Quality & CI
 
 on:
   push:
-    branches: [ develop, main ]
+    branches: [develop, main]
   pull_request:
-    branches: [ develop, main ]
+    branches: [develop, main]
 
 jobs:
-  build-and-test:
+  # -----------------------------------------------
+  # Code quality checks
+  # -----------------------------------------------
+  quality:
+    name: Code Quality
     runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run pre-commit quality checks
+        uses: pre-commit/action@v3.0.1
+
+  # -----------------------------------------------
+  # ROS 2 build and tests
+  # -----------------------------------------------
+  build-and-test:
+    name: ROS 2 Build & Test
+    runs-on: ubuntu-24.04
+
     container:
       image: osrf/ros:jazzy-desktop-full
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        uses: actions/checkout@v4
+
+      - name: Install build dependencies
+        run: |
+          . /opt/ros/jazzy/setup.sh
+          apt-get update
+          apt-get install -y \
+            git \
+            clang-format \
+            python3-colcon-common-extensions \
+            python3-rosdep
 
       - name: Initialize and update rosdep
         run: |
           . /opt/ros/jazzy/setup.sh
+
           if [ ! -f /etc/ros/rosdep/sources.list.d/20-default.list ]; then
             rosdep init
           fi
+
           rosdep update
 
-      - name: Install dependencies and build workspace
+      - name: Install workspace dependencies
         run: |
           . /opt/ros/jazzy/setup.sh
-          apt-get update
           rosdep install --from-paths ws/src --ignore-src -y
+
+      - name: Colcon Build
+        run: |
+          . /opt/ros/jazzy/setup.sh
           cd ws
           colcon build --symlink-install
 
-      - name: Run unit tests (TDD verification)
+      - name: Colcon Test
         run: |
           . /opt/ros/jazzy/setup.sh
           cd ws
